@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import warnings
 warnings.filterwarnings('ignore')
 
-act_list = 'data/actor_fetch_list.csv'
+act_list = 'data/actor_fetch_list2.csv'
 act_file = pd.read_csv(act_list)['actor'].values
 out_file = 'data/2019_actors_out.csv'
 

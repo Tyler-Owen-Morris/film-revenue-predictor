@@ -9,9 +9,9 @@ from bs4 import BeautifulSoup
 import warnings
 warnings.filterwarnings('ignore')
 
-act_list = 'data/actor_fetch_list2.csv'
+act_list = 'data/missing_actors.csv'
 act_file = pd.read_csv(act_list)['actor'].values
-out_file = 'data/2019_actors_out.csv'
+out_file = 'data/actor_key.csv'
 
 def fetch_actor_data(name_code):
     try:
@@ -46,7 +46,7 @@ for act in act_file:
     c+=1
     if c > 7:
         c=0
-        os.system('cls' if os.name == 'nt' else 'clear')
+        #os.system('cls' if os.name == 'nt' else 'clear')
     print("Fetching actor data for title: "+act)
     row = fetch_actor_data(act)
     if not isinstance(row, pd.DataFrame):

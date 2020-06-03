@@ -17,12 +17,12 @@ from math import sqrt
 import scipy.stats as stats
 from scipy.stats import zscore
 
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Activation
-from tensorflow.keras.optimizers import SGD
-from tensorflow.keras.utils import to_categorical
+# import tensorflow as tf
+# from tensorflow import keras
+# from tensorflow.keras.models import Sequential
+# from tensorflow.keras.layers import Dense, Dropout, Activation
+# from tensorflow.keras.optimizers import SGD
+# from tensorflow.keras.utils import to_categorical
 from sklearn import preprocessing
 
 print("loading data...")

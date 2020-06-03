@@ -24,7 +24,6 @@ from tensorflow.keras.layers import Dense, Dropout, Activation
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.utils import to_categorical
 from sklearn import preprocessing
-%matplotlib inline
 
 print("loading data...")
 _2019 = pd.read_csv('../data/IMDB_mine_data_2019.csv',index_col=0)

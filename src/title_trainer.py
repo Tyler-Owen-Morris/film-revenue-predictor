@@ -114,7 +114,7 @@ model.fit(x, y,
 print("***************")
 print("MODEL FINISHED!")
 
-model.save('../data/title_generator')
+model.save('../data/title_generator1')
 
 
 #pickle.dump(nn_model, open('../data/text_gen_model.pkl', "wb"))

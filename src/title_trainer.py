@@ -92,7 +92,7 @@ nn_model = make_model(title_string)
 
 bucket='galvbucket'
 key='titlemaker_trained_model.pkl'
-pickle_byte_obj = pickle.dumps([var1, var2, ..., varn]) 
+pickle_byte_obj = pickle.dumps(nn_model) 
 s3_resource = boto3.resource('s3')
 s3_resource.Object(bucket,key).put(Body=pickle_byte_obj)
 

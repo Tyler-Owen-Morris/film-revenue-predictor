@@ -21,7 +21,7 @@ _2015 = pd.read_csv('../data/IMDB_mine_data_2015.csv',index_col=0)
 _2014 = pd.read_csv('../data/IMDB_mine_data_2014.csv',index_col=0)
 #get all the films into one DF
 films = pd.concat([_2019,_2018,_2017,_2016,_2015,_2014])
-title_string = ' '.join(films['title'].to_numpy())
+title_string = '  |  '.join(films['title'].to_numpy())
 
 def sample(preds, temperature=1.0):
     # helper function to sample an index from a probability array
@@ -37,7 +37,7 @@ def on_epoch_end(epoch, _):
     print("****************************************************************************")
     print('----- Generating text after Epoch: %d' % epoch)
 
-    if epoch > 180 and epoch % 2 == 0:
+    if epoch > 150 and epoch % 2 == 0:
         start_index = random.randint(0, len(processed_text) - maxlen - 1)
         for temperature in [0.2, 0.5, 1.0, 1.2]:
             print('----- temperature:', temperature)
@@ -76,7 +76,7 @@ char_indices = dict((c, i) for i, c in enumerate(chars))
 indices_char = dict((i, c) for i, c in enumerate(chars))
 
 # cut the text in semi-redundant sequences of maxlen characters
-maxlen = 20
+maxlen = 30
 step = 3
 sentences = []
 next_chars = []
@@ -94,6 +94,7 @@ for i, sentence in enumerate(sentences):
 print('Build model...')
 model = Sequential()
 model.add(LSTM(128, input_shape=(maxlen, len(chars))))
+model.add(Dense(80, activation='softmax'))
 model.add(Dense(len(chars), activation='softmax'))
 
 optimizer = RMSprop(lr=0.01)

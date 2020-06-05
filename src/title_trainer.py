@@ -89,12 +89,8 @@ def make_model(string):
     return model
 
 nn_model = make_model(title_string)
+nn_model.save('../data/title_generator')
 
-bucket='galvbucket'
-key='titlemaker_trained_model.pkl'
-pickle_byte_obj = pickle.dumps(nn_model) 
-s3_resource = boto3.resource('s3')
-s3_resource.Object(bucket,key).put(Body=pickle_byte_obj)
 
 #pickle.dump(nn_model, open('../data/text_gen_model.pkl', "wb"))
 print("Script finished")

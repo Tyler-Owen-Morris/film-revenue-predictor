@@ -37,59 +37,84 @@ def on_epoch_end(epoch, _):
     print("****************************************************************************")
     print('----- Generating text after Epoch: %d' % epoch)
 
-    print("we're not generating text with this")
+    if epoch > 180 and epoch % 2 == 0:
+        start_index = random.randint(0, len(processed_text) - maxlen - 1)
+        for temperature in [0.2, 0.5, 1.0, 1.2]:
+            print('----- temperature:', temperature)
+
+            generated = ''
+            sentence = processed_text[start_index: start_index + maxlen]
+            generated += sentence
+            print('----- Generating with seed: "' + sentence + '"')
+            sys.stdout.write(generated)
+
+            for i in range(400):
+                x_pred = np.zeros((1, maxlen, len(chars)))
+                for t, char in enumerate(sentence):
+                    x_pred[0, t, char_indices[char]] = 1.
+
+                preds = model.predict(x_pred, verbose=0)[0]
+                next_index = sample(preds, temperature)
+                next_char = indices_char[next_index]
+
+                generated += next_char
+                sentence = sentence[1:] + next_char
+
+                sys.stdout.write(next_char)
+                sys.stdout.flush()
+            print()
+    else:
+        pass
     pass
 
-def make_model(string):
-    processed_text = string.lower()
-    processed_text = re.sub(r'[^\x00-\x7f]',r'', processed_text)
-    chars = sorted(list(set(processed_text)))
-    print('total chars:', len(chars))
-    char_indices = dict((c, i) for i, c in enumerate(chars))
-    indices_char = dict((i, c) for i, c in enumerate(chars))
 
-    # cut the text in semi-redundant sequences of maxlen characters
-    maxlen = 20
-    step = 3
-    sentences = []
-    next_chars = []
-    for i in range(0, len(processed_text) - maxlen, step):
-        sentences.append(processed_text[i: i + maxlen])
-        next_chars.append(processed_text[i + maxlen])
+processed_text = string.lower()
+processed_text = re.sub(r'[^\x00-\x7f]',r'', processed_text)
+chars = sorted(list(set(processed_text)))
+print('total chars:', len(chars))
+char_indices = dict((c, i) for i, c in enumerate(chars))
+indices_char = dict((i, c) for i, c in enumerate(chars))
 
-    x = np.zeros((len(sentences), maxlen, len(chars)), dtype=np.bool)
-    y = np.zeros((len(sentences), len(chars)), dtype=np.bool)
-    for i, sentence in enumerate(sentences):
-        for t, char in enumerate(sentence):
-            x[i, t, char_indices[char]] = 1
-        y[i, char_indices[next_chars[i]]] = 1
+# cut the text in semi-redundant sequences of maxlen characters
+maxlen = 20
+step = 3
+sentences = []
+next_chars = []
+for i in range(0, len(processed_text) - maxlen, step):
+    sentences.append(processed_text[i: i + maxlen])
+    next_chars.append(processed_text[i + maxlen])
 
-    print('Build model...')
-    model = Sequential()
-    model.add(LSTM(128, input_shape=(maxlen, len(chars))))
-    model.add(Dense(len(chars), activation='softmax'))
+x = np.zeros((len(sentences), maxlen, len(chars)), dtype=np.bool)
+y = np.zeros((len(sentences), len(chars)), dtype=np.bool)
+for i, sentence in enumerate(sentences):
+    for t, char in enumerate(sentence):
+        x[i, t, char_indices[char]] = 1
+    y[i, char_indices[next_chars[i]]] = 1
 
-    optimizer = RMSprop(lr=0.01)
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+print('Build model...')
+model = Sequential()
+model.add(LSTM(128, input_shape=(maxlen, len(chars))))
+model.add(Dense(len(chars), activation='softmax'))
 
-    logging.disable(logging.WARNING)
-    os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+optimizer = RMSprop(lr=0.01)
+model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
-    # Fit the model
-    print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
-    print("fitting model")
-    model.fit(x, y,
-            batch_size=128,
-            epochs=10,
-            callbacks=[print_callback])
+logging.disable(logging.WARNING)
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
-    #pickle.dump(model, open('../data/text_gen_model.pkl', "wb"))
-    print("***************")
-    print("MODEL FINISHED!")
-    return model
+# Fit the model
+print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
+print("fitting model")
+model.fit(x, y,
+        batch_size=128,
+        epochs=200,
+        callbacks=[print_callback])
 
-nn_model = make_model(title_string)
-nn_model.save('../data/title_generator')
+#pickle.dump(model, open('../data/text_gen_model.pkl', "wb"))
+print("***************")
+print("MODEL FINISHED!")
+
+model.save('../data/title_generator')
 
 
 #pickle.dump(nn_model, open('../data/text_gen_model.pkl', "wb"))

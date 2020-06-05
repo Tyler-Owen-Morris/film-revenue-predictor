@@ -39,7 +39,7 @@ def on_epoch_end(epoch, _):
 
     if epoch > 150 and epoch % 2 == 0:
         start_index = random.randint(0, len(processed_text) - maxlen - 1)
-        for temperature in [0.2, 0.5, 1.0, 1.2]:
+        for temperature in [0.5, 1.0, 1.5]:
             print('----- temperature:', temperature)
 
             generated = ''
@@ -115,7 +115,7 @@ model.fit(x, y,
 print("***************")
 print("MODEL FINISHED!")
 
-model.save('../data/title_generator1')
+model.save('../data/title_generator2')
 
 
 #pickle.dump(nn_model, open('../data/text_gen_model.pkl', "wb"))

@@ -68,7 +68,7 @@ def on_epoch_end(epoch, _):
     pass
 
 
-processed_text = string.lower()
+processed_text = title_string.lower()
 processed_text = re.sub(r'[^\x00-\x7f]',r'', processed_text)
 chars = sorted(list(set(processed_text)))
 print('total chars:', len(chars))

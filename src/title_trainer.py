@@ -38,7 +38,7 @@ def on_epoch_end(epoch, _):
     print("****************************************************************************")
     print('----- Generating text after Epoch: %d' % epoch)
 
-    if epoch >= 25 and epoch % 3 == 0:
+    if epoch % 5 == 0:
         start_index = random.randint(0, len(processed_text) - maxlen - 1)
         for temperature in [1.5]:
             print('----- temperature:', temperature)

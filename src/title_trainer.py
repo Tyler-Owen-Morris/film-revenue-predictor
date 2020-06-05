@@ -32,13 +32,13 @@ def sample(preds, temperature=1.0):
     probas = np.random.multinomial(1, preds, 1)
     return np.argmax(probas)
 
-gen_s = ''
+
 def on_epoch_end(epoch, _):
     # Function invoked at end of each epoch. Prints generated text.
     print("****************************************************************************")
     print('----- Generating text after Epoch: %d' % epoch)
 
-    if epoch >= 150 and epoch % 5 == 0:
+    if epoch >= 25 and epoch % 3 == 0:
         start_index = random.randint(0, len(processed_text) - maxlen - 1)
         for temperature in [1.5]:
             print('----- temperature:', temperature)
@@ -49,7 +49,7 @@ def on_epoch_end(epoch, _):
             print('----- Generating with seed: "' + sentence + '"')
             sys.stdout.write(generated)
 
-            for i in range(400):
+            for i in range(1000):
                 x_pred = np.zeros((1, maxlen, len(chars)))
                 for t, char in enumerate(sentence):
                     x_pred[0, t, char_indices[char]] = 1.
@@ -63,7 +63,8 @@ def on_epoch_end(epoch, _):
 
                 sys.stdout.write(next_char)
                 sys.stdout.flush()
-            gen_s += generated
+            with open('../data/raw_generated_text.txt', "a+") as f:
+                f.write(generated)
             print()
     else:
         pass
@@ -117,7 +118,6 @@ print("***************")
 print("MODEL FINISHED!")
 
 model.save('../data/title_generator2')
-pickle.dump(model_g, open('../data/generated_text.pkl', "wb"))
 
 #pickle.dump(nn_model, open('../data/text_gen_model.pkl', "wb"))
 print("Script finished")

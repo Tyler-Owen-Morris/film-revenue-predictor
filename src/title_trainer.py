@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import logging, os
 import re
+import boto3
 import sys
 import pickle
 import random
@@ -79,7 +80,7 @@ def make_model(string):
     print("fitting model")
     model.fit(x, y,
             batch_size=128,
-            epochs=300,
+            epochs=10,
             callbacks=[print_callback])
 
     #pickle.dump(model, open('../data/text_gen_model.pkl', "wb"))
@@ -88,5 +89,12 @@ def make_model(string):
     return model
 
 nn_model = make_model(title_string)
-pickle.dump(nn_model, open('../data/text_gen_model.pkl', "wb"))
-print("Pickle dumpped!")
+
+bucket='galvbucket'
+key='titlemaker_trained_model.pkl'
+pickle_byte_obj = pickle.dumps([var1, var2, ..., varn]) 
+s3_resource = boto3.resource('s3')
+s3_resource.Object(bucket,key).put(Body=pickle_byte_obj)
+
+#pickle.dump(nn_model, open('../data/text_gen_model.pkl', "wb"))
+print("Script finished")

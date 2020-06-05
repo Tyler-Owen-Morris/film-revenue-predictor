@@ -32,6 +32,7 @@ def sample(preds, temperature=1.0):
     probas = np.random.multinomial(1, preds, 1)
     return np.argmax(probas)
 
+gen_s = ''
 def on_epoch_end(epoch, _):
     # Function invoked at end of each epoch. Prints generated text.
     print("****************************************************************************")
@@ -39,7 +40,7 @@ def on_epoch_end(epoch, _):
 
     if epoch >= 150 and epoch % 5 == 0:
         start_index = random.randint(0, len(processed_text) - maxlen - 1)
-        for temperature in [0.5, 1.0, 1.5]:
+        for temperature in [1.5]:
             print('----- temperature:', temperature)
 
             generated = ''
@@ -62,6 +63,7 @@ def on_epoch_end(epoch, _):
 
                 sys.stdout.write(next_char)
                 sys.stdout.flush()
+            gen_s += generated
             print()
     else:
         pass
@@ -115,7 +117,7 @@ print("***************")
 print("MODEL FINISHED!")
 
 model.save('../data/title_generator2')
-
+pickle.dump(model_g, open('../data/generated_text.pkl', "wb"))
 
 #pickle.dump(nn_model, open('../data/text_gen_model.pkl', "wb"))
 print("Script finished")

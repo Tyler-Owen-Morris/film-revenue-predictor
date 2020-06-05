@@ -37,7 +37,7 @@ def on_epoch_end(epoch, _):
     print("****************************************************************************")
     print('----- Generating text after Epoch: %d' % epoch)
 
-    if epoch > 150 and epoch % 2 == 0:
+    if epoch >= 150 and epoch % 5 == 0:
         start_index = random.randint(0, len(processed_text) - maxlen - 1)
         for temperature in [0.5, 1.0, 1.5]:
             print('----- temperature:', temperature)
@@ -94,7 +94,6 @@ for i, sentence in enumerate(sentences):
 print('Build model...')
 model = Sequential()
 model.add(LSTM(128, input_shape=(maxlen, len(chars))))
-model.add(Dense(80, activation='softmax'))
 model.add(Dense(len(chars), activation='softmax'))
 
 optimizer = RMSprop(lr=0.01)

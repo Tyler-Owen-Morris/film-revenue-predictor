@@ -36,20 +36,20 @@ def sample(preds, temperature=1.0):
 def on_epoch_end(epoch, _):
     # Function invoked at end of each epoch. Prints generated text.
     print('''                                                       
-            @@@@@@@@  @@@@@@@    @@@@@@    @@@@@@@  @@@  @@@  @@@  
-            @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@  @@@  @@@  
-            @@!       @@!  @@@  @@!  @@@  !@@       @@!  @@@  @@!  
-            !@!       !@!  @!@  !@!  @!@  !@!       !@!  @!@  !@   
-            @!!!:!    @!@@!@!   @!@  !@!  !@!       @!@!@!@!  @!@  
-            !!!!!:    !!@!!!    !@!  !!!  !!!       !!!@!!!!  !!!  
-            !!:       !!:       !!:  !!!  :!!       !!:  !!!       
-            :!:       :!:       :!:  !:!  :!:       :!:  !:!  :!:  
-            :: ::::   ::       ::::: ::   ::: :::  ::   :::   ::  
-            : :: ::    :         : :  :    :: :: :   :   : :  :::  
-                                                                ''')
+@@@@@@@@  @@@@@@@    @@@@@@    @@@@@@@  @@@  @@@  @@@  
+@@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@  @@@  @@@  
+@@!       @@!  @@@  @@!  @@@  !@@       @@!  @@@  @@!  
+!@!       !@!  @!@  !@!  @!@  !@!       !@!  @!@  !@   
+@!!!:!    @!@@!@!   @!@  !@!  !@!       @!@!@!@!  @!@  
+!!!!!:    !!@!!!    !@!  !!!  !!!       !!!@!!!!  !!!  
+!!:       !!:       !!:  !!!  :!!       !!:  !!!       
+:!:       :!:       :!:  !:!  :!:       :!:  !:!  :!:  
+:: ::::   ::       ::::: ::   ::: :::  ::   :::   ::  
+: :: ::    :         : :  :    :: :: :   :   : :  :::  
+                                                ''')
     print('----- Generating text after Epoch: %d' % epoch)
 
-    if epoch % 5 == 0:
+    if epoch >=20 epoch % 5 == 0:
         start_index = random.randint(0, len(processed_text) - maxlen - 1)
         for temperature in [1.5]:
             print('----- temperature:', temperature)
@@ -123,7 +123,7 @@ print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 print("fitting model")
 model.fit(x, y,
         batch_size=128,
-        epochs=100,
+        epochs=151,
         callbacks=[print_callback])
 
 #pickle.dump(model, open('../data/text_gen_model.pkl', "wb"))

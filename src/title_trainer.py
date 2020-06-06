@@ -52,7 +52,7 @@ def on_epoch_end(epoch, _):
                                                 ''')
     print('----- Generating text after Epoch: %d' % epoch)
 
-    if epoch >=20 and epoch % 5 == 0:
+    if epoch >=10 and epoch % 3 == 0:
         start_index = random.randint(0, len(processed_text) - maxlen - 1)
         for temperature in [1.5]:
             print('----- temperature:', temperature)
@@ -93,7 +93,7 @@ char_indices = dict((c, i) for i, c in enumerate(chars))
 indices_char = dict((i, c) for i, c in enumerate(chars))
 
 # cut the text in semi-redundant sequences of maxlen characters
-maxlen = 30
+maxlen = 40
 step = 3
 sentences = []
 next_chars = []

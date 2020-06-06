@@ -78,7 +78,7 @@ def on_epoch_end(epoch, _):
                 sys.stdout.write(next_char)
                 sys.stdout.flush()
             with open('../data/raw_generated_text.txt', "a+") as f:
-                f.write(generated+"\n")
+                f.write(generated[maxlen:]+"\n")
             print()
     else:
         pass

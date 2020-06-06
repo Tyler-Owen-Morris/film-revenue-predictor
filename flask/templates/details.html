@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Fraud Detector 5000</title>
+    <title>Film Predictor 5000</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -52,10 +52,16 @@
     <div class="container">
 
       <div class="starter-template">
+        
         <h1>Opening Box Office Film Revenue Predictor!</h1>
-        <p class="lead">Your film is predicted to make:<br> $ {{ data.predicted_revenue }}</p>
+        <form action="/details" method='POST'>
+          <button type="submit" >try again</button>
+        </form></br>
+        <p class="lead">Your film is predicted to make:<br></p>
+        <h2>${{ data.predicted_revenue }}</h2>
         <p class="lead">Your randomly generated film is:</p>
-        <p>in the style of {{ data.genre[0]}}, {{ data.genre[1]}}, {{ data.genre[2] }} Film</p>
+        <h1>{{ data.title }}</h1>
+        <p>a {{ data.rating }} rated film, in the genre of {{ data.genre[0]}}, {{ data.genre[1]}}, {{ data.genre[2] }}</p>
         <h3>Directed by:</h3><h4>{{ data.director }}</h4>
         <h3>Starring:</h3>
         <h5>{{ data.actor1 }}</h5>
@@ -77,13 +83,10 @@
         <h5>{{ data.production }}</h5>
         <h3>Distributed by:</h3>
         <h5>{{ data.distribution }}</h5>
+        <form action="/" method='GET' >
+          <button type='submit'>Go Back</button>
+        </form>
       </br>
-      <form action="/details" method='POST'>
-        <button type="submit" >try again</button>
-      </form></br>
-      <form action="/" method='GET' >
-        <button type='submit'>Go Back</button>
-    </form>
       </div>
 
     </div><!-- /.container -->

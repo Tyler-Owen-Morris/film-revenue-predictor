@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from random import randint
+import time
 import re
 import pickle
 import random
@@ -22,6 +23,7 @@ executives = pd.read_csv('data/all_executives.csv', index_col=0)
 budgets = pd.read_csv('data/all_budgets.csv', index_col=0)
 actor_key = pd.read_csv('data/actor_key.csv', index_col=0).reset_index()
 act_pop_keys = pd.read_csv('data/actor_popularity.csv', index_col=0)
+titles = pd.read_csv('data/titles_table.csv', index_col=0)
 act_pop_keys.reset_index(inplace=True, drop=True)
 model_gb = pickle.load(open('data/gb_model.pkl', 'rb'))
 
@@ -33,6 +35,7 @@ def get_new_film_prediction():
     producer = producers.sample(1).values[0,0]
     executive = executives.sample(1).values[0,0]
     budget = budgets.sample(1).values[0,0]
+    title = titles.sample(1).values[0,0]
 
     film = pd.DataFrame(columns=['actor1', 'actor2', 'actor3', 'actor4', 'actor5', 'actor6', 'actor7', 'actor8', 'actor9',
                                 'actor10', 'director', 'production', 'distribution', 'producer', 'executive', 'budget'])
@@ -43,7 +46,7 @@ def get_new_film_prediction():
     genres = random.sample(genre,3)
     month = random.choice(months)
     print("you are making a "+ str(rate)+" rated film of the "+ ', '.join([str(x) for x in genres]) +" sort of genre, that comes out in "+str(month))
-
+    #time.sleep(0.5)
     film['rating'] = rate
     film['genre'] = [genres]
     film['release_month'] = month
@@ -58,7 +61,7 @@ def get_new_film_prediction():
     film['actor_8'] = film['actor8'].map(lambda x : get_actor_name(x).replace(" ", '') if isinstance(x, str) else None)
     film['actor_9'] = film['actor9'].map(lambda x : get_actor_name(x).replace(" ", '') if isinstance(x, str) else None)
     film['actor_10'] = film['actor10'].map(lambda x : get_actor_name(x).replace(" ", '') if isinstance(x, str) else None)
-
+    print("first half actors constructed")
     film['actor_1_string'] = film['actor1'].map(lambda x : get_actor_name(x) if isinstance(x, str) else None)
     film['actor_2_string'] = film['actor2'].map(lambda x : get_actor_name(x) if isinstance(x, str) else None)
     film['actor_3_string'] = film['actor3'].map(lambda x : get_actor_name(x) if isinstance(x, str) else None)
@@ -69,7 +72,8 @@ def get_new_film_prediction():
     film['actor_8_string'] = film['actor8'].map(lambda x : get_actor_name(x) if isinstance(x, str) else None)
     film['actor_9_string'] = film['actor9'].map(lambda x : get_actor_name(x) if isinstance(x, str) else None)
     film['actor_10_string'] = film['actor10'].map(lambda x : get_actor_name(x) if isinstance(x, str) else None)
-
+    print("actors constructed")
+    #time.sleep(0.25)
     film['train_string'] = film[['production','distribution','director','actor_1','actor_2','actor_3','actor_4',
                                'actor_5','actor_6','actor_7','actor_8','actor_9','actor_10',
                                'producer','executive']].apply(lambda x: ' '.join(x.dropna().astype(str)), axis=1)
@@ -118,7 +122,7 @@ def get_new_film_prediction():
     film['actor10_class'] = film['actor10_popularity'].map(lambda x : get_celeb_class(x))
 
     #reload the variable
-    dummy_blank = pd.read_csv('../data/dummy_blank.csv', index_col=0)
+    dummy_blank = pd.read_csv('data/dummy_blank.csv', index_col=0)
     dummy_blank.iloc[0, dummy_blank.columns.get_loc('release_month_'+film['release_month'][0]) ] = 1
     dummy_blank.iloc[0, dummy_blank.columns.get_loc('actor1_class_'+film['actor1_class'][0]) ] = 1
     dummy_blank.iloc[0, dummy_blank.columns.get_loc('actor2_class_'+film['actor2_class'][0]) ] = 1
@@ -140,6 +144,7 @@ def get_new_film_prediction():
     #construct return dict with prediction
     r = {}
     r['predicted_revenue'] = "{:,}".format(round(prediction[0],0))
+    r['title'] = title.title()
     r['director'] = director
     r['producer'] = producer
     r['executive'] = executive

@@ -35,7 +35,18 @@ def sample(preds, temperature=1.0):
 
 def on_epoch_end(epoch, _):
     # Function invoked at end of each epoch. Prints generated text.
-    print("****************************************************************************")
+    print('''                                                       
+            @@@@@@@@  @@@@@@@    @@@@@@    @@@@@@@  @@@  @@@  @@@  
+            @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@  @@@  @@@  
+            @@!       @@!  @@@  @@!  @@@  !@@       @@!  @@@  @@!  
+            !@!       !@!  @!@  !@!  @!@  !@!       !@!  @!@  !@   
+            @!!!:!    @!@@!@!   @!@  !@!  !@!       @!@!@!@!  @!@  
+            !!!!!:    !!@!!!    !@!  !!!  !!!       !!!@!!!!  !!!  
+            !!:       !!:       !!:  !!!  :!!       !!:  !!!       
+            :!:       :!:       :!:  !:!  :!:       :!:  !:!  :!:  
+            :: ::::   ::       ::::: ::   ::: :::  ::   :::   ::  
+            : :: ::    :         : :  :    :: :: :   :   : :  :::  
+                                                                ''')
     print('----- Generating text after Epoch: %d' % epoch)
 
     if epoch % 5 == 0:
@@ -49,7 +60,7 @@ def on_epoch_end(epoch, _):
             print('----- Generating with seed: "' + sentence + '"')
             sys.stdout.write(generated)
 
-            for i in range(1000):
+            for i in range(2000):
                 x_pred = np.zeros((1, maxlen, len(chars)))
                 for t, char in enumerate(sentence):
                     x_pred[0, t, char_indices[char]] = 1.
@@ -64,7 +75,7 @@ def on_epoch_end(epoch, _):
                 sys.stdout.write(next_char)
                 sys.stdout.flush()
             with open('../data/raw_generated_text.txt', "a+") as f:
-                f.write(generated)
+                f.write(generated+"\n")
             print()
     else:
         pass
@@ -98,9 +109,11 @@ print('Build model...')
 model = Sequential()
 model.add(LSTM(128, input_shape=(maxlen, len(chars))))
 model.add(Dense(len(chars), activation='softmax'))
-
 optimizer = RMSprop(lr=0.01)
 model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+
+# print('Load model...')
+# model = keras.models.load_model('../data/title_generator2')
 
 logging.disable(logging.WARNING)
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
@@ -110,14 +123,14 @@ print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 print("fitting model")
 model.fit(x, y,
         batch_size=128,
-        epochs=200,
+        epochs=100,
         callbacks=[print_callback])
 
 #pickle.dump(model, open('../data/text_gen_model.pkl', "wb"))
 print("***************")
 print("MODEL FINISHED!")
 
-model.save('../data/title_generator2')
+model.save('../data/title_generator3')
 
 #pickle.dump(nn_model, open('../data/text_gen_model.pkl', "wb"))
 print("Script finished")

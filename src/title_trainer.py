@@ -23,7 +23,7 @@ from tensorflow.keras.callbacks import LambdaCallback
 # films = pd.concat([_2019,_2018,_2017,_2016,_2015,_2014])
 # title_string = '  |  '.join(films['title'].to_numpy())
 
-all_titles = pd.read_csv('https://galvbucket.s3-us-west-1.amazonaws.com/titles_for_text_training.csv')
+all_titles = pd.read_csv('https://galvbucket.s3-us-west-1.amazonaws.com/titles_for_text_training-unique.csv')
 title_string = '  |  '.join(all_titles.title.to_numpy())
 
 def sample(preds, temperature=1.0):

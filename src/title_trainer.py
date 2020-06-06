@@ -13,15 +13,18 @@ from tensorflow.keras.layers import Dense, LSTM
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.callbacks import LambdaCallback
 
-_2019 = pd.read_csv('../data/IMDB_mine_data_2019-oversample.csv',index_col=0)
-_2018 = pd.read_csv('../data/IMDB_mine_data_2018-oversample.csv',index_col=0)
-_2017 = pd.read_csv('../data/IMDB_mine_data_2017.csv',index_col=0)
-_2016 = pd.read_csv('../data/IMDB_mine_data_2016.csv',index_col=0)
-_2015 = pd.read_csv('../data/IMDB_mine_data_2015.csv',index_col=0)
-_2014 = pd.read_csv('../data/IMDB_mine_data_2014.csv',index_col=0)
-#get all the films into one DF
-films = pd.concat([_2019,_2018,_2017,_2016,_2015,_2014])
-title_string = '  |  '.join(films['title'].to_numpy())
+# _2019 = pd.read_csv('../data/IMDB_mine_data_2019-oversample.csv',index_col=0)
+# _2018 = pd.read_csv('../data/IMDB_mine_data_2018-oversample.csv',index_col=0)
+# _2017 = pd.read_csv('../data/IMDB_mine_data_2017.csv',index_col=0)
+# _2016 = pd.read_csv('../data/IMDB_mine_data_2016.csv',index_col=0)
+# _2015 = pd.read_csv('../data/IMDB_mine_data_2015.csv',index_col=0)
+# _2014 = pd.read_csv('../data/IMDB_mine_data_2014.csv',index_col=0)
+# #get all the films into one DF
+# films = pd.concat([_2019,_2018,_2017,_2016,_2015,_2014])
+# title_string = '  |  '.join(films['title'].to_numpy())
+
+all_titles = pd.read_csv('https://galvbucket.s3-us-west-1.amazonaws.com/titles_for_text_training.csv')
+title_string = '  |  '.join(all_titles.title.to_numpy())
 
 def sample(preds, temperature=1.0):
     # helper function to sample an index from a probability array

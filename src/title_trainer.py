@@ -125,7 +125,7 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 print("fitting model")
 model.fit(x, y,
-        batch_size=128,
+        batch_size=32,
         epochs=151,
         callbacks=[print_callback])
 
@@ -133,7 +133,7 @@ model.fit(x, y,
 print("***************")
 print("MODEL FINISHED!")
 
-model.save('../data/title_generator3')
+model.save('../data/title_generator4')
 
 #pickle.dump(nn_model, open('../data/text_gen_model.pkl', "wb"))
 print("Script finished")

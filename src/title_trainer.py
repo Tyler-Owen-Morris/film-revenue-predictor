@@ -52,7 +52,7 @@ def on_epoch_end(epoch, _):
                                                 ''')
     print('----- Generating text after Epoch: %d' % epoch)
 
-    if epoch >=10 and epoch % 3 == 0:
+    if epoch >=10 and epoch % 2 == 0:
         start_index = random.randint(0, len(processed_text) - maxlen - 1)
         for temperature in [1.5]:
             print('----- temperature:', temperature)
@@ -126,7 +126,7 @@ print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 print("fitting model")
 model.fit(x, y,
         batch_size=128,
-        epochs=151,
+        epochs=60,
         callbacks=[print_callback])
 
 #pickle.dump(model, open('../data/text_gen_model.pkl', "wb"))

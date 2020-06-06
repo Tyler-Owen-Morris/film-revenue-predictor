@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import pickle
 import json
-app = Flask(__name__)
-import psycopg2
+application = app = Flask(__name__)
 import time
 from fake_film_predictor import get_new_film_prediction
 

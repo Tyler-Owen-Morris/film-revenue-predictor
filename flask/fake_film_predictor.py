@@ -13,17 +13,17 @@ genre = ['action','adventure','animated','biography','drama','documentary','come
          'musical','horror','war','mystery','sci-fi','thriller','romance']
 rating = ['G', 'PG', 'PG-13', 'R', 'not-rated']
 
-actors = pd.read_csv('../data/all_actors.csv', index_col=0)
-directors = pd.read_csv('../data/all_directors.csv', index_col=0)
-production = pd.read_csv('../data/all_production.csv', index_col=0)
-distribution = pd.read_csv('../data/all_distribution.csv', index_col=0)
-producers = pd.read_csv('../data/all_producers.csv', index_col=0)
-executives = pd.read_csv('../data/all_executives.csv', index_col=0)
-budgets = pd.read_csv('../data/all_budgets.csv', index_col=0)
-actor_key = pd.read_csv('../data/actor_key.csv', index_col=0).reset_index()
-act_pop_keys = pd.read_csv('../data/actor_popularity.csv', index_col=0)
+actors = pd.read_csv('data/all_actors.csv', index_col=0)
+directors = pd.read_csv('data/all_directors.csv', index_col=0)
+production = pd.read_csv('data/all_production.csv', index_col=0)
+distribution = pd.read_csv('data/all_distribution.csv', index_col=0)
+producers = pd.read_csv('data/all_producers.csv', index_col=0)
+executives = pd.read_csv('data/all_executives.csv', index_col=0)
+budgets = pd.read_csv('data/all_budgets.csv', index_col=0)
+actor_key = pd.read_csv('data/actor_key.csv', index_col=0).reset_index()
+act_pop_keys = pd.read_csv('data/actor_popularity.csv', index_col=0)
 act_pop_keys.reset_index(inplace=True, drop=True)
-model_gb = pickle.load(open('../data/gb_model.pkl', 'rb'))
+model_gb = pickle.load(open('data/gb_model.pkl', 'rb'))
 
 def get_new_film_prediction():
     actor10 = actors['0'].sample(10).values
@@ -139,12 +139,12 @@ def get_new_film_prediction():
     
     #construct return dict with prediction
     r = {}
-    r['predicted_revenue'] = round(prediction[0],2)
+    r['predicted_revenue'] = "{:,}".format(round(prediction[0],0))
     r['director'] = director
     r['producer'] = producer
     r['executive'] = executive
     r['release_month'] = month
-    r['budget'] = budget
+    r['budget'] = "{:,}".format(budget)
     r['actor1'] = film.actor_1_string[0]
     r['actor2'] = film.actor_2_string[0]
     r['actor3'] = film.actor_3_string[0]
@@ -158,6 +158,7 @@ def get_new_film_prediction():
     r['production'] = film.production[0]
     r['distribution'] = film.distribution[0]
     r['genre'] = film.genre[0]
+    r['rating'] = rate
     return r
 
 def get_celeb_class(pop):

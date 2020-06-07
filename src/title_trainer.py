@@ -54,7 +54,7 @@ def on_epoch_end(epoch, _):
 
     if epoch >=10 and epoch % 2 == 0:
         start_index = random.randint(0, len(processed_text) - maxlen - 1)
-        for temperature in [1.5]:
+        for temperature in [0.6,1.0,1.7,2]:
             print('----- temperature:', temperature)
 
             generated = ''

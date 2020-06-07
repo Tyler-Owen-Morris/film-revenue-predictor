@@ -53,39 +53,50 @@
 
       <div class="starter-template">
         
-        <h1>Opening Box Office Film Revenue Predictor!</h1>
-        <form action="/details" method='POST'>
-          <button type="submit" >try again</button>
-        </form></br>
-        <p class="lead">Your film is predicted to make:<br></p>
-        <h2>${{ data.predicted_revenue }}</h2>
-        <p class="lead">Your randomly generated film is:</p>
-        <h1>{{ data.title }}</h1>
-        <p>a {{ data.rating }} rated film, in the genre of {{ data.genre[0]}}, {{ data.genre[1]}}, {{ data.genre[2] }}</p>
-        <h3>Directed by:</h3><h4>{{ data.director }}</h4>
-        <h3>Starring:</h3>
-        <h5>{{ data.actor1 }}</h5>
-        <h5>{{ data.actor2 }}</h5>
-        <h5>{{ data.actor3 }}</h5>
-        <h5>{{ data.actor4 }}</h5>
-        <h5>{{ data.actor5 }}</h5>
-        <h5>{{ data.actor6 }}</h5>
-        <h5>{{ data.actor7 }}</h5>
-        <h5>{{ data.actor8 }}</h5>
-        <h5>{{ data.actor9 }}</h5>
-        <h5>{{ data.actor10 }}</h5>
-        <h3>Budget:</h3>
-        <h4>${{ data.budget }}</h4>
-        <h3>Production by:</h3>
-        <h5>{{ data.producer }}</h5>
-        <h5>{{ data.executive }}</h5>
-        <h3>Production Company:</h3>
-        <h5>{{ data.production }}</h5>
-        <h3>Distributed by:</h3>
-        <h5>{{ data.distribution }}</h5>
-        <form action="/" method='GET' >
-          <button type='submit'>Go Back</button>
-        </form>
+        <div class="container">
+          <h1>Opening Box Office Film Revenue Predictor!</h1>
+          <br>
+          <form action="/details" method='POST'>
+            <button type="submit" >roll again</button>
+          </form></br>
+          <form action="/details?type=golden" method='POST'>
+            <button type="submit" name="golden">golden roll</button>
+          </form></br>
+          
+          <p class="lead">Your film is predicted to make:<br></p>
+          <h2>${{ data.predicted_revenue }}</h2>
+          <p class="lead">Your randomly generated film is:</p>
+          <h1>{{ data.title }}</h1>
+          <p>a {{ data.rating }} rated film, in the genre of {{ data.genre[0]}}, {{ data.genre[1]}}, {{ data.genre[2] }}</p>
+          <h3>Directed by:</h3><h4>{{ data.director }}</h4>
+          <h3>Starring:</h3>
+          
+          <h5>{{ data.actor1 }} ( {{ data.actor1_class}} )</h5>
+          <h5>{{ data.actor2 }} ( {{ data.actor2_class}} )</h5>
+          <h5>{{ data.actor3 }} ( {{ data.actor3_class}} )</h5>
+          <h5>{{ data.actor4 }} ( {{ data.actor4_class}} )</h5>
+          <h5>{{ data.actor5 }} ( {{ data.actor5_class}} )</h5>
+          <h5>{{ data.actor6 }} ( {{ data.actor6_class}} )</h5>
+          <h5>{{ data.actor7 }} ( {{ data.actor7_class}} )</h5>
+          <h5>{{ data.actor8 }} ( {{ data.actor8_class}} )</h5>
+          <h5>{{ data.actor9 }} ( {{ data.actor9_class}} )</h5>
+          <h5>{{ data.actor10 }} ( {{ data.actor10_class}} )</h5>
+          
+          <h3>Budget:</h3>
+          <h4>${{ data.budget }}</h4>
+          <h3>Production by:</h3>
+          <h5>{{ data.producer }}</h5>
+          <h5>{{ data.executive }}</h5>
+          <h3>Production Company:</h3>
+          <h5>{{ data.production }}</h5>
+          <h3>Distributed by:</h3>
+          <h5>{{ data.distribution }}</h5>
+          <br>
+          <form action="/" method='GET' >
+            <button type='submit'>Go Back</button>
+          </form>
+        </div>
+        
       </br>
       </div>
 

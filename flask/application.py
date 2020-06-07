@@ -4,6 +4,7 @@ import json
 application = app = Flask(__name__)
 import time
 from fake_film_predictor import get_new_film_prediction
+from fake_film_predictor import get_gold_film_prediction
 
 @app.route("/", methods=['POST','GET'])
 def home():
@@ -11,7 +12,11 @@ def home():
 
 @app.route("/details", methods=['POST','GET'])
 def details():
-    data = get_new_film_prediction()
+    gold = str(request.args.get('type'))
+    if gold == 'golden':
+        data = get_gold_film_prediction()
+    else:
+        data = get_new_film_prediction()
     print("loaded into details page")
     return render_template('details.html', data=data)
 

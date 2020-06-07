@@ -143,15 +143,16 @@ for i, sentence in enumerate(sentences):
         x[i, t, char_indices[char]] = 1
     y[i, char_indices[next_chars[i]]] = 1
 
-# print('Build model...')
-# model = Sequential()
-# model.add(LSTM(128, input_shape=(maxlen, len(chars))))
-# model.add(Dense(len(chars), activation='softmax'))
-# optimizer = RMSprop(lr=0.01)
-# model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+print('Build model...')
+model = Sequential()
+model.add(LSTM(128, input_shape=(maxlen, len(chars))))
+model.add(LSTM(256))
+model.add(Dense(len(chars), activation='softmax'))
+optimizer = RMSprop(lr=0.02)
+model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
-print('Load model...')
-model = keras.models.load_model('../data/title_generator4')
+# print('Load model...')
+# model = keras.models.load_model('../data/title_generator4')
 
 # for _ in range(4):
 #     spit_out_text()
@@ -163,15 +164,15 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 print("fitting model")
 model.fit(x, y,
-        batch_size=128,
-        epochs=10,
+        batch_size=256,
+        epochs=50,
         callbacks=[print_callback])
 
 
 print("***************")
 print("MODEL FINISHED TRAINING!")
 
-model.save('../data/title_generator4')
+model.save('../data/title_generator5')
 for _ in range(5):
     spit_out_text()
 

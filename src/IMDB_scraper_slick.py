@@ -8,9 +8,9 @@ from bs4 import BeautifulSoup
 import warnings
 warnings.filterwarnings('ignore')
 
-film_list = 'data/us2014_filmList-WORKING.csv'
+film_list = '../data/us2020_filmList-WORKING.csv'
 title_file = pd.read_csv(film_list)['titleId'].values
-out_file = 'data/IMDB_mine_data_2014.csv'
+out_file = '../data/IMDB_mine_data_2020.csv'
 
 def fetch_film_data(title_code):
     print("Fetching film data for title: "+title_code)
@@ -18,7 +18,7 @@ def fetch_film_data(title_code):
         #scrape IMDB PRO
         url = 'https://pro.imdb.com/title/'+title_code+'/boxoffice'
         headers = {
-            'Cookie':'''session-id=138-1311213-4138762; adblk=adblk_no; ubid-main=131-2177923-5330445; session-id-time=2218844129l; x-main="IS86HKXSJMigI0RnIigNqWd@Pu8ZQWgbXHTCS5NC44TGbsoydTDB4J3y0KW4qQJw"; at-main=Atza|IwEBILUkej479bl-hN19LhAyANxzITDWvKeBnZnnNNWk10j0SijTTrcP1xHYude5_tVJrzPsq30ehR12BnByawJoVpMhpgQ_hNpe0PYjxNHJTAQIAjOTF1wpOsTVFURmn8zA9cCV43yBuMIWlH9cQeyn7lV7Kdd47Hn--VPkHz_W88D4CZ-L1N-H-c-y65FUxELVH6R6EPnh830ssfLXG5L864QRO9hBDwKchx_d6hepwITlwuO8qetimWYabwo8Hty6QX5nZuKY2HNpCWmsakxByc50NIAp7Uy7_bZkvZW2sN8dK9kON4xPKIygVHhMWJQ6wh2-d0DykEh4BKAnSs8dTOaGBf2Wq33d5V4XKmz9RPhyup41DXR5DFVPQojnJoMGVNVo1hd_Xan63I94uYk1JEMN; sess-at-main="p9whlqJpRA5/kki0a+qwvIksIhZyceM2oTm2NUGUstA="; uu=BCYoQbsIiwfBoS5Z-9VBEM4GQeZlJd-x0dsY76F-NJiyuSyqzmSEMKbVSar_-kScSNRzLG9PNA9I%0D%0Ajdjov4ijeWrg0KYq7RquhDNrANLf2r_CKRWG40LVJlIVEtUtjfN7vlSPexThCyrlRCA6MaZXDAXU%0D%0APJiwN-Oy2Uileof_lGTBYNE%0D%0A; pa=BCYo5O3AftOw_UMyDZBOrkb5nNPu-MMicHEKRBry99NXBnJRqeW3prdQxa0PDs0tVA8QWusbH7tZ%0D%0Anraln_N9jpUhsHsZ_jxhsmPTLpuksiUytkmvL8ZfDM5RxRZzJUpLkDX6%0D%0A; session-token="FGBlsQXWFfNa1aXpisRWiZ24Zh7zfYgzF86EWr2infSQ/A6LyfZB++iPHpTBeYr2C2ZzH/C96D7YqEVAjt91KwKNDfhgKCBhgo3cwIzkZ9A2ZqntW/EE9MsAa8/KfK7XLvtj4lUy/nEmiyLVq9Gc2U6Exc1kovQN4H5GmkruH/ywN/ZwSmxBk1VEIqNKeSVbDDnA8JE2OJXuKQNPFsmu5kLk62fEK2cMJMb1pQZw6rU="; csm-hit=tb:FVQ9NP1114J2DT3PZ86C+s-WXASZQ2TS1F9RJ5CAPX5|1588207251592&t:1588207251592&adb:adblk_no"'''
+            'Cookie':'''session-id=138-1311213-4138762; adblk=adblk_no; ubid-main=131-2177923-5330445; as=%7B%22n%22%3A%7B%22t%22%3A%5B970%2C250%5D%2C%22tr%22%3A%5B0%2C0%5D%2C%22in%22%3A%5B0%2C0%5D%2C%22ib%22%3A%5B0%2C0%5D%7D%7D; session-token="JFSvygtPJd8ZeKwGGSjVpc5sDwlJGr9gA/LSpzTf0fbSLOrBlUyTUyNpeGq3oXwdjXkOkuut6Je+A0uT315m3N+vqmZ8IVbvTZeKVXrKe4Ie6p1M1V6b0mOqbCtHxb2OcH2nH1IRmjHuQw1aJRjQLI1LYQalIqZG7OuBiY80gzWqcRn0qUOfAoIJGf3F0ICXdU82F2YxU6MQaxziANslDjmbdbWL64OnKjCYQpgB3zI="; x-main="A6UFzv3jJ8x@@UkZMVJKff6DrAxmusWlp1dK?1UIhxjfkEUBc6ywq9Y9cWTzg6DR"; at-main=Atza|IwEBIGQi-DiutiPSR22I1ljJ3ACDkDlrvTwQ78a0TkuS-_GHjaxcuAvSDW9gOAPdMlyvARTNYhuOlNhtdKW0K0jOiWj4_APwnHqTUt5HDwGrBswbV_b5Zezo3yUh-kZqpdZfVZSFqbrQtTM01Qv_5Uug5zhPZvGgkWQ9KA9YPd95jNRkjA0yUMWfFqfNfCMRxCLEpBpQZkjfMTeShoJw2Ux_IjCYJx8hK1GdexxMcNBLaipng_QWq3OALYEmthRWmklqhLlhhNMGaV84vvTynQ8DDNfIoUtLVS0wX0DL0ZCaIJv4j6j4BVNYawyL0aZRNAlHPJzVJKbgD1Ox0FwfE4MZY8mbmVTSruGZE4sn8ij949gSdiZhNK-EzsLiyxzC2fTCp__o6M-cL9ZmgS-zGd-Crrvn; sess-at-main="SjujLSQGWKTpfXKs8nnOECRRzktL3lp7RR0ugDMoCdk="; uu=BCYpPV9059wps_JGeEXmc6d-0fU_7xjfbehFMfv0g3kBg_lfd0-0qt0-7ji1PHfXxADoAUbt-uUn%0D%0AOFpK6VFFfS2cG9aRRYG7MsBjtqAGt7Pnr3dSflWvlie-fQPRfdH9PNoIpoNkw-XCwcpa5Leq8GXK%0D%0ASTjKdnObACMB3b-74MoF4Ow%0D%0A; restart-succeed=RESTARTED; new-renew-users-page-type=true; pa=BCYphe8r5-_D26BMQKLxxjSoGYpeeYIFkXMHM3jMQpD97cNbloDqwgwtqwwY6KvZclLSJbWSLOGt%0D%0AgCSIviV2Vd6JdpAX89FXYVGH9wGnrHaSnIsrD1Y7SCf1_tr_XbmxwqK4%0D%0A; session-id-time=2082787201l; _uetsid=0fff0396-1086-aac3-3c35-ecddef9972a5; csm-hit=tb:4KC7S12KGCH4BZF37C3S+s-BK9QA2Z791J5KCVYHDWS|1591563028616&t:1591563028616&adb:adblk_no'''
         }
         resp = requests.request("GET", url, headers=headers) 
         soup = BeautifulSoup(resp.text, "html.parser")

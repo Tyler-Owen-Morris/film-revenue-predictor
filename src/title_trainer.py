@@ -13,18 +13,18 @@ from tensorflow.keras.layers import Dense, LSTM
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.callbacks import LambdaCallback
 
-# _2019 = pd.read_csv('../data/IMDB_mine_data_2019-oversample.csv',index_col=0)
-# _2018 = pd.read_csv('../data/IMDB_mine_data_2018-oversample.csv',index_col=0)
-# _2017 = pd.read_csv('../data/IMDB_mine_data_2017.csv',index_col=0)
-# _2016 = pd.read_csv('../data/IMDB_mine_data_2016.csv',index_col=0)
-# _2015 = pd.read_csv('../data/IMDB_mine_data_2015.csv',index_col=0)
-# _2014 = pd.read_csv('../data/IMDB_mine_data_2014.csv',index_col=0)
-# #get all the films into one DF
-# films = pd.concat([_2019,_2018,_2017,_2016,_2015,_2014])
-# title_string = '  |  '.join(films['title'].to_numpy())
+_2019 = pd.read_csv('../data/IMDB_mine_data_2019-oversample.csv',index_col=0)
+_2018 = pd.read_csv('../data/IMDB_mine_data_2018-oversample.csv',index_col=0)
+_2017 = pd.read_csv('../data/IMDB_mine_data_2017.csv',index_col=0)
+_2016 = pd.read_csv('../data/IMDB_mine_data_2016.csv',index_col=0)
+_2015 = pd.read_csv('../data/IMDB_mine_data_2015.csv',index_col=0)
+_2014 = pd.read_csv('../data/IMDB_mine_data_2014.csv',index_col=0)
+#get all the films into one DF
+films = pd.concat([_2019,_2018,_2017,_2016,_2015,_2014])
+title_string = '  |  '.join(films['title'].to_numpy())
 
-all_titles = pd.read_csv('https://galvbucket.s3-us-west-1.amazonaws.com/titles_for_text_training-unique.csv')
-title_string = '  |  '.join(all_titles.title.to_numpy())
+# all_titles = pd.read_csv('https://galvbucket.s3-us-west-1.amazonaws.com/titles_for_text_training-unique.csv')
+# title_string = '  |  '.join(all_titles.title.to_numpy())
 
 def sample(preds, temperature=1.0):
     # helper function to sample an index from a probability array
@@ -54,7 +54,7 @@ def on_epoch_end(epoch, _):
 
     if epoch >=10 and epoch % 2 == 0:
         start_index = random.randint(0, len(processed_text) - maxlen - 1)
-        for temperature in [0.6,1.0,1.7,2]:
+        for temperature in [1.0]:
             print('----- temperature:', temperature)
 
             generated = ''
@@ -90,7 +90,7 @@ def spit_out_text():
     #print('----- Generating text after Epoch: %d' % epoch)
     
     start_index = random.randint(0, len(processed_text) - maxlen - 1)
-    for temperature in [1.0]:
+    for temperature in [0.5,1.0,1.5,2.0]:
         print('----- temperature:', temperature)
 
         generated = ''
@@ -143,16 +143,16 @@ for i, sentence in enumerate(sentences):
         x[i, t, char_indices[char]] = 1
     y[i, char_indices[next_chars[i]]] = 1
 
-print('Build model...')
-model = Sequential()
-model.add(LSTM(128, input_shape=(maxlen, len(chars))))
-model.add(Dense(len(chars)*2, activation='softmax'))
-model.add(Dense(len(chars), activation='softmax'))
-optimizer = RMSprop(lr=0.02)
-model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+# print('Build model...')
+# model = Sequential()
+# model.add(LSTM(128, input_shape=(maxlen, len(chars))))
+# model.add(Dense(len(chars)*2, activation='softmax'))
+# model.add(Dense(len(chars), activation='softmax'))
+# optimizer = RMSprop(lr=0.02)
+# model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
-# print('Load model...')
-# model = keras.models.load_model('../data/title_generator4')
+print('Load model...')
+model = keras.models.load_model('../data/title_generator_working')
 
 # for _ in range(4):
 #     spit_out_text()
@@ -165,14 +165,14 @@ print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 print("fitting model")
 model.fit(x, y,
         batch_size=256,
-        epochs=50,
+        epochs=10,
         callbacks=[print_callback])
 
 
 print("***************")
 print("MODEL FINISHED TRAINING!")
 
-model.save('../data/title_generator5')
+model.save('../data/title_generator_working_aws')
 for _ in range(5):
     spit_out_text()
 

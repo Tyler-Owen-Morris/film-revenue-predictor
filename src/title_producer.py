@@ -34,7 +34,7 @@ def spit_out_text():
     #print('----- Generating text after Epoch: %d' % epoch)
     
     start_index = random.randint(0, len(processed_text) - maxlen - 1)
-    for temperature in [1.0]:
+    for temperature in [0.8,1.0,1.5,2.0]:
         print('----- temperature:', temperature)
 
         generated = ''

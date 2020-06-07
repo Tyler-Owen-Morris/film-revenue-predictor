@@ -153,8 +153,8 @@ for i, sentence in enumerate(sentences):
 print('Load model...')
 model = keras.models.load_model('../data/title_generator4')
 
-for _ in range(4):
-    spit_out_text()
+# for _ in range(4):
+#     spit_out_text()
 
 logging.disable(logging.WARNING)
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
@@ -163,7 +163,7 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 print("fitting model")
 model.fit(x, y,
-        batch_size=128,
+        batch_size=32,
         epochs=10,
         callbacks=[print_callback])
 

@@ -163,7 +163,7 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
 print("fitting model")
 model.fit(x, y,
-        batch_size=32,
+        batch_size=128,
         epochs=10,
         callbacks=[print_callback])
 

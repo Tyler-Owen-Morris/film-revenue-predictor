@@ -1,5 +1,5 @@
 # IMDB Film Reveune Predictor
-<img src="img/IMDB.jpg" height=40%  width=47%  alt="What's hiding inside your phone?" ALIGN="right">
+<img src="img/IMDB.jpg" height=40%  width=47%  alt="IMDB Logo" ALIGN="right">
 
 Predicting opening weekend box office revenue of films based on IMDB data.
 

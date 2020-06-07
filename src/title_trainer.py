@@ -114,7 +114,7 @@ def spit_out_text():
 
             sys.stdout.write(next_char)
             sys.stdout.flush()
-        with open('../data/raw_generated_text_local.txt', "a+") as f:
+        with open('../data/raw_generated_text_aws.txt', "a+") as f:
               f.write(generated[maxlen:]+"\n")
         print()
 
@@ -128,7 +128,7 @@ char_indices = dict((c, i) for i, c in enumerate(chars))
 indices_char = dict((i, c) for i, c in enumerate(chars))
 
 # cut the text in semi-redundant sequences of maxlen characters
-maxlen = 30
+maxlen = 40
 step = 3
 sentences = []
 next_chars = []
@@ -153,7 +153,8 @@ for i, sentence in enumerate(sentences):
 print('Load model...')
 model = keras.models.load_model('../data/title_generator4')
 
-spit_out_text()
+for _ in range(4):
+    spit_out_text()
 
 logging.disable(logging.WARNING)
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
@@ -166,13 +167,12 @@ model.fit(x, y,
         epochs=10,
         callbacks=[print_callback])
 
-#pickle.dump(model, open('../data/text_gen_model.pkl', "wb"))
+
 print("***************")
-print("MODEL FINISHED!")
+print("MODEL FINISHED TRAINING!")
 
 model.save('../data/title_generator4')
-
-#pickle.dump(nn_model, open('../data/text_gen_model.pkl', "wb"))
-for _ in range(3):
+for _ in range(5):
     spit_out_text()
+
 print("Script finished")

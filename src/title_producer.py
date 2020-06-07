@@ -76,12 +76,12 @@ maxlen = 40
 step = 3
 
 print('Load model...')
-model = keras.models.load_model('../data/title_generator4')
+model = keras.models.load_model('../data/title_generator_working')
 
 logging.disable(logging.WARNING)
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
-for _ in range(5):
+for _ in range(20):
     spit_out_text()
 
 print("Script finished")

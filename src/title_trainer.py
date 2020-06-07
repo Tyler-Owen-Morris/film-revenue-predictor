@@ -146,7 +146,7 @@ for i, sentence in enumerate(sentences):
 print('Build model...')
 model = Sequential()
 model.add(LSTM(128, input_shape=(maxlen, len(chars))))
-model.add(LSTM(256))
+model.add(LSTM(256), input_shape=(maxlen, len(chars)))
 model.add(Dense(len(chars), activation='softmax'))
 optimizer = RMSprop(lr=0.02)
 model.compile(loss='categorical_crossentropy', optimizer=optimizer)

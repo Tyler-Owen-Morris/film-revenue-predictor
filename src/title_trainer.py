@@ -90,7 +90,7 @@ def spit_out_text():
     #print('----- Generating text after Epoch: %d' % epoch)
     
     start_index = random.randint(0, len(processed_text) - maxlen - 1)
-    for temperature in [ 1.0]:
+    for temperature in [1.0]:
         print('----- temperature:', temperature)
 
         generated = ''
@@ -143,15 +143,17 @@ for i, sentence in enumerate(sentences):
         x[i, t, char_indices[char]] = 1
     y[i, char_indices[next_chars[i]]] = 1
 
-print('Build model...')
-model = Sequential()
-model.add(LSTM(128, input_shape=(maxlen, len(chars))))
-model.add(Dense(len(chars), activation='softmax'))
-optimizer = RMSprop(lr=0.01)
-model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+# print('Build model...')
+# model = Sequential()
+# model.add(LSTM(128, input_shape=(maxlen, len(chars))))
+# model.add(Dense(len(chars), activation='softmax'))
+# optimizer = RMSprop(lr=0.01)
+# model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
-# print('Load model...')
-# model = keras.models.load_model('../data/title_generator2')
+print('Load model...')
+model = keras.models.load_model('../data/title_generator4')
+
+spit_out_text()
 
 logging.disable(logging.WARNING)
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
@@ -171,4 +173,6 @@ print("MODEL FINISHED!")
 model.save('../data/title_generator4')
 
 #pickle.dump(nn_model, open('../data/text_gen_model.pkl', "wb"))
+for _ in range(3):
+    spit_out_text()
 print("Script finished")

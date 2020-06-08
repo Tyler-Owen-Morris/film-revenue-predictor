@@ -9,7 +9,7 @@ __Results:__ Using a gradient-boosted trees model the flask application can make
 
 All of the film data used was gathered off of the IMDB api and through web scraping of IMDB Pro for the years 2015-2019.
 
-See the presentation slides [Here](). See the video [Here]().
+See the presentation slides [Here](https://docs.google.com/presentation/d/1HiHdE-K_BfGqb0XCrnTjhRLFsx-V13X7OpGp2Q2geWo/edit?usp=sharing). See the video [Here]().
 <br clear="right">
 
 # Background & Motivation
@@ -55,4 +55,40 @@ There are simply too many actors to take them into account on an individual basi
 
 #### Advanced Approach
 
-There are simply too many Production Companies, Producers, and Executives and the sample size is far too small to have a hope of picking up on their signal individually. Also worth factoring in is the combination of Directors with studios, Actors with Directors, or Actors with one-another. For this reason I selected to convert all of the text features into a string, and perform feature hashing
+There are simply too many Production Companies, Producers, and Executives and the sample size is far too small to have a hope of picking up on their signal individually. Also worth factoring in is the combination of Directors with studios, Actors with Directors, or Actors with one-another. For this reason I selected to convert all of the text features into a string, and perform feature hashing.
+
+<img src="img/FeatureImportance-barh_gb5.png">
+<img src="img/FeatureImportance-barh_rf4.png">
+<br><br>
+Looking at the feature importance in our regressors budget remains the strongest feature, but our hashing vector is also consistently finding some important features. 
+
+Looking deeper into feature importance we find:
+<br><br>
+<img src="img/FeatureImportance-barh_gb6.png">
+<img src="img/FeatureImportance-barh_rf6.png">
+
+We see a good distribution across our various features, and we're seeing some of the ones we would expect among the most influental features. The model has detected the importance of having A-list actors in a film as well as a symphony of all our other features.
+
+### Results
+
+For my final fit I decided to remove outliers from 2 places: 3% from the top grossing, and 2% each from the highest spent to lost ratio and the lowest money spent to highest returned ratio for a total of ~8% of outliers removed.
+
+This gave me a new baseline RMSE of $8.99M. Fitting our best performing Gradient Boosted Regressor, and performing a grid-search led me to a $4.2M RMSE for a final improvement of 51.6%.
+
+# The App
+
+<img src="img/Film_guesser_sample1.png" height=50% width=50% ALIGN='right'>
+<br>
+In order to test the models ability to react to unseen or even fictional data I have constructed a flask application. I trained an LSTM neural network to produce random titles, and "Film Predictior 5000" constructs a randomly generated film, gives it a title, and predicts how much revenue the totally fictional film would make on its opening weekend.
+
+I found that users were frustrated at how infrequently they recognized the cast and crew of their randomly generated film. To fix this I created a "Golden Roll" feature that only selects from the top list of actors, directors, companies, and budgets.
+
+The app can be found [here](https://bit.ly/3dNN3US).
+
+<br clear="right">
+
+# Conclusion
+
+This is a messy problem with lots of variables and lots of messy data. We can see how ML techniques can be used to sort through the information to find the signal in the noise, and make some relatively accurate predictions about film revenue based on some pretty basic informtation.
+
+Moving forward the model could be expanded to include more films that were missing from the data-set. There could be more features that could be used to further add to the model. The model could be adapted to different market segments such as straight-to-stream films. However, I think what people enjoy the most is the fictional film generator. People are pretty amused with the AI generated titles and the impossible productions constructed. I had a lot of fun playing with these techniques to generate predictions, but having a fun product for people to play with is where it's at. Enjoy!

@@ -55,13 +55,30 @@
         
         <div class="container">
           
-          <form action="/details" method='POST'>
-            <button type="submit" >Random Film</button>
-          </form></br>
-          <form action="/details?type=golden" method='POST'>
-            <button type="submit" name="golden">Random A-list Film</button>
-          </form></br>
-          
+          <section>
+            <div class="center">
+              <div class="row">
+                <div class="col-sm-1 col-md-1"></div>
+                <div class="col-sm-3 col-md-3 ">
+                  <form action="/details" method='POST'>
+                    <button type="submit" >Random Film</button>
+                  </form>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                  <form action="/details?type=golden" method='POST'>
+                    <button type="submit" name="golden">Random A-list Film</button>
+                  </form>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                  <form action="/custom" method='GET'>
+                    <button type="submit" >Custom Film</button>
+                  </form>
+                </div>
+                <div class="col-sm-1 col-md-1"></div>
+              </div>
+            </div>
+        </section>
+
           <p class="lead">Your film is predicted to make:<br></p>
           <h2>${{ data.predicted_revenue }}</h2>
           <p class="lead">Your randomly generated film is:</p>
@@ -70,17 +87,27 @@
           <h3>Directed by:</h3><h4>{{ data.director }}</h4>
           <h3>Starring:</h3>
           
-          <h5><a href='http://IMDB.com{{data.actor1_code}}' target="_blank" >{{ data.actor1 }} </a>( {{ data.actor1_class}} )</h5>
-          <h5><a href='http://IMDB.com{{data.actor2_code}}' target="_blank" >{{ data.actor2 }} </a>( {{ data.actor2_class}} )</h5>
-          <h5><a href='http://IMDB.com{{data.actor3_code}}' target="_blank" >{{ data.actor3 }} </a>( {{ data.actor3_class}} )</h5>
-          <h5><a href='http://IMDB.com{{data.actor4_code}}' target="_blank" >{{ data.actor4 }} </a>( {{ data.actor4_class}} )</h5>
-          <h5><a href='http://IMDB.com{{data.actor5_code}}' target="_blank" >{{ data.actor5 }} </a>( {{ data.actor5_class}} )</h5>
-          <h5><a href='http://IMDB.com{{data.actor6_code}}' target="_blank" >{{ data.actor6 }} </a>( {{ data.actor6_class}} )</h5>
-          <h5><a href='http://IMDB.com{{data.actor7_code}}' target="_blank" >{{ data.actor7 }} </a>( {{ data.actor7_class}} )</h5>
-          <h5><a href='http://IMDB.com{{data.actor8_code}}' target="_blank" >{{ data.actor8 }} </a>( {{ data.actor8_class}} )</h5>
-          <h5><a href='http://IMDB.com{{data.actor9_code}}' target="_blank" >{{ data.actor9 }} </a>( {{ data.actor9_class}} )</h5>
-          <h5><a href='http://IMDB.com{{data.actor10_code}}' target="_blank" >{{ data.actor10 }} </a>( {{ data.actor10_class}} )</h5>
-          
+          <div class="row">
+            <div class="col-sm-3 col-md-3"></div>
+              <div class="col-sm-3 col-md-3">
+                <h5><a href='http://IMDB.com{{data.actor1_code}}' target="_blank" >{{ data.actor1 }} </a><br/>( {{ data.actor1_class}} )</h5>
+                <h5><a href='http://IMDB.com{{data.actor2_code}}' target="_blank" >{{ data.actor2 }} </a><br/>( {{ data.actor2_class}} )</h5>
+                <h5><a href='http://IMDB.com{{data.actor3_code}}' target="_blank" >{{ data.actor3 }} </a><br/>( {{ data.actor3_class}} )</h5>
+                <h5><a href='http://IMDB.com{{data.actor4_code}}' target="_blank" >{{ data.actor4 }} </a><br/>( {{ data.actor4_class}} )</h5>
+                <h5><a href='http://IMDB.com{{data.actor5_code}}' target="_blank" >{{ data.actor5 }} </a><br/>( {{ data.actor5_class}} )</h5>
+              </div>
+              <div class="col-sm-3 col-md-3">
+                <h5><a href='http://IMDB.com{{data.actor6_code}}' target="_blank" >{{ data.actor6 }} </a><br/>( {{ data.actor6_class}} )</h5>
+                <h5><a href='http://IMDB.com{{data.actor7_code}}' target="_blank" >{{ data.actor7 }} </a><br/>( {{ data.actor7_class}} )</h5>
+                <h5><a href='http://IMDB.com{{data.actor8_code}}' target="_blank" >{{ data.actor8 }} </a><br/>( {{ data.actor8_class}} )</h5>
+                <h5><a href='http://IMDB.com{{data.actor9_code}}' target="_blank" >{{ data.actor9 }} </a><br/>( {{ data.actor9_class}} )</h5>
+                <h5><a href='http://IMDB.com{{data.actor10_code}}' target="_blank" >{{ data.actor10 }} </a><br/>( {{ data.actor10_class}} )</h5>
+              </div>
+              <div class="col-sm-3 col-md-3"></div>
+            </div>
+        
+              <br/>
+            <div class="center">
           <h3>Budget:</h3>
           <h4>${{ data.budget }}</h4>
           <h3>Production by:</h3>
@@ -94,6 +121,8 @@
           <form action="/" method='GET' >
             <button type='submit'>Go Back</button>
           </form>
+          </div>
+        </div>
         </div>
         
       </br>

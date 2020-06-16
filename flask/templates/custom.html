@@ -179,21 +179,21 @@
           <h4>Release Month</h4> 
           <select name="month" >
               {% for month in months %}
-                <option value="{{ month }}" SELECTED>{{ month }}</option>
+                <option value="{{ month }}" >{{ month }}</option>
               {% endfor %}
           </select>
           <br/> 
           <h4>Production</h4> 
           <select name="production" >
               {% for production in productions %}
-                <option value="{{ production }}" SELECTED>{{ production }}</option>
+                <option value="{{ production }}" >{{ production }}</option>
               {% endfor %}
           </select>
           <br/> 
           <h4>Distribution</h4> 
           <select name="distribution" >
               {% for distributor in distributors %}
-                <option value="{{ distributor }}" SELECTED>{{ distributor }}</option>
+                <option value="{{ distributor }}" >{{ distributor }}</option>
               {% endfor %}
           </select>
 

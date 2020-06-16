@@ -8,10 +8,8 @@ import time
 from fake_film_predictor import get_new_film_prediction
 from fake_film_predictor import get_gold_film_prediction, get_custom_film_prediciton
 
-actors = pd.read_csv('../data/actor_key.csv', index_col=0).name.values.tolist()
-directors = pd.read_csv('../data/all_directors.csv', index_col=0)['0'].values.tolist()
-productions = pd.read_csv('data/all_production.csv', index_col=0)['0'].values.tolist()
-distributors = pd.read_csv('data/all_distribution.csv', index_col=0)['0'].values.tolist()[1:]
+actors = pd.read_csv('https://galvbucket.s3-us-west-1.amazonaws.com/flask_data/actor_key.csv', index_col=0).name.values.tolist()
+directors = pd.read_csv('https://galvbucket.s3-us-west-1.amazonaws.com/flask_data/all_directors.csv', index_col=0)['0'].values.tolist()
 
 class SearchForm(Form):
     autocomp = TextField('Actor name', id='actor_autocomplete')
@@ -45,9 +43,9 @@ def custom():
         fifth_actor = str(request.form['input5'])
         sixth_actor = str(request.form['input6'])
         seventh_actor = str(request.form['input7'])
-        eighth_actor = str(request.form['input6'])
-        ninth_actor = str(request.form['input6'])
-        tenth_actor = str(request.form['input6'])
+        eighth_actor = str(request.form['input8'])
+        ninth_actor = str(request.form['input9'])
+        tenth_actor = str(request.form['input10'])
         director = str(request.form.get('inputD'))
         genres = request.form.getlist('genreCheckbox')
         actors = [first_actor, second_actor, third_actor, fourth_actor, fifth_actor, sixth_actor, seventh_actor, eighth_actor, ninth_actor, tenth_actor]
@@ -65,6 +63,8 @@ def custom():
         data = get_custom_film_prediciton(director, actors, genres, rating, budget, prod, dist, month)
         return render_template('details.html', data=data)
     
+    productions = pd.read_csv('https://galvbucket.s3-us-west-1.amazonaws.com/flask_data/all_production.csv', index_col=0)['0'].values.tolist()
+    distributors = pd.read_csv('https://galvbucket.s3-us-west-1.amazonaws.com/flask_data/all_distribution.csv', index_col=0)['0'].values.tolist()[1:]
     return render_template('custom.html', form=form, months=months, budgets=budgets, productions=productions, distributors=distributors)
 
 #auto complete feature for actors
@@ -76,9 +76,9 @@ def autocomplete():
 
 @app.route('/_autocompleteD', methods=['GET'])
 def autocompleteD():
-    print("AutocompleteD called!")
-    print(len(directors))
+    #print("AutocompleteD called!")
+    #print(len(directors))
     return Response(json.dumps(directors), mimetype='application/json')
 
 if __name__=='__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
